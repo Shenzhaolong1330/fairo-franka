@@ -8,6 +8,7 @@
 GIT_ROOT=$(git rev-parse --show-toplevel)
 LIBFRANKA_VER=$1
 LIBFRANKA_PATH="$GIT_ROOT/polymetis/polymetis/src/clients/franka_panda_client/third_party/libfranka"
+# /home/deepcybo/libfranka
 
 # Check to make sure directory exists
 [ ! -d $LIBFRANKA_PATH ] && echo "Directory $LIBFRANKA_PATH does not exist" && exit 1

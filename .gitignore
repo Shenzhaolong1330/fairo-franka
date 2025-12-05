@@ -1,5 +1,6 @@
 .#*
 #*
+outputs/
 craftassist/agent/*.so
 droidlet/lowlevel/minecraft/bin
 craftassist/dashboard_data.db

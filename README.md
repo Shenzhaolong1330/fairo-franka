@@ -1,4 +1,5 @@
-# Fairo
+# Fairo-Franka
+## Fairo
 
 [![CircleCI](https://circleci.com/gh/facebookresearch/fairo/tree/main.svg?style=svg&circle-token=7fadbd3989ab8e76003fd5193ad62e26686bc4a6)](https://circleci.com/gh/facebookresearch/fairo/tree/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -11,3 +12,7 @@
 - [Meta Robotics Platform](./mrp) lets you deploy, launch, manage, and orchestrate heterogeneous robots with ease.
 
 Fairo is [MIT licensed](./LICENSE).
+
+## Adaption for Franka Research 3 Teleoperation
+
+We made some adaptations in [Polymetis](./polymetis) for the Franka Research 3 robot to enable teleoperation and other tasks. Details can be found in the [FRANKA.md](./polymetis/FRANKA.md).

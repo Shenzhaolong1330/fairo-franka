@@ -85,6 +85,7 @@ class GripperInterface:
             epsilon_inner=-1.0,
             epsilon_outer=0.08,
         )
+        
         cmd.timestamp.GetCurrentTime()
 
         self._send_gripper_command(

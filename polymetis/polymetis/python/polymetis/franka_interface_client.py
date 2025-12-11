@@ -14,12 +14,13 @@ class FrankaInterfaceClient:
         force: float, 
         blocking: bool = True
     ):
-        self.server.gripper_goto(
-            width=width,
-            speed=speed,
-            force=force,
-            blocking=blocking,
-        )
+        # self.server.gripper_goto(
+        #     width=width,
+        #     speed=speed,
+        #     force=force,
+        #     blocking=blocking,
+        # )
+        self.server.gripper_goto(width, speed, force, blocking)
 
     def gripper_grasp(
         self,
@@ -30,13 +31,21 @@ class FrankaInterfaceClient:
         epsilon_outer: float = -1.0,
         blocking: bool = True,
     ):
+        # self.server.gripper_grasp(
+        #     speed=speed,
+        #     force=force,
+        #     grasp_width=grasp_width,
+        #     epsilon_inner=epsilon_inner,
+        #     epsilon_outer=epsilon_outer,
+        #     blocking=blocking,
+        # )
         self.server.gripper_grasp(
-            speed=speed,
-            force=force,
-            grasp_width=grasp_width,
-            epsilon_inner=epsilon_inner,
-            epsilon_outer=epsilon_outer,
-            blocking=blocking,
+            speed,
+            force,
+            grasp_width,
+            epsilon_inner,
+            epsilon_outer,
+            blocking,
         )
 
     def gripper_get_state(self)-> dict:
@@ -44,13 +53,25 @@ class FrankaInterfaceClient:
 
     
     def robot_get_joint_positions(self):
-        return self.server.robot_get_joint_positions()
+        '''
+        list -> np.ndarray
+        '''
+        joint_positions = np.array(self.server.robot_get_joint_positions())
+        return joint_positions
 
     def robot_get_joint_velocities(self):
-        return self.server.robot_get_joint_velocities()
+        '''
+        list -> np.ndarray
+        '''
+        joint_velocities = np.array(self.server.robot_get_joint_velocities())
+        return joint_velocities
     
     def robot_get_ee_pose(self):
-        return self.server.robot_get_ee_pose()
+        '''
+        list -> np.ndarray
+        '''
+        pose = np.array(self.server.robot_get_ee_pose())
+        return pose
 
     def robot_move_to_joint_positions(
         self,
@@ -61,11 +82,11 @@ class FrankaInterfaceClient:
         Kqd: np.ndarray = None,
     ):
         self.server.robot_move_to_joint_positions(
-            positions, 
+            positions.tolist(), 
             time_to_go, 
             delta, 
-            Kq if Kq is not None else None, 
-            Kqd if Kqd is not None else None
+            Kq.tolist() if Kq is not None else None, 
+            Kqd.tolist() if Kqd is not None else None
         )
 
     def robot_go_home(self):
@@ -82,12 +103,12 @@ class FrankaInterfaceClient:
         op_space_interp: bool = True,
     ):
         self.server.robot_move_to_ee_pose(
-            position,
-            orientation,
+            position.tolist(),
+            orientation.tolist(),
             time_to_go,
             delta,
-            Kx if Kx is not None else None,
-            Kxd if Kxd is not None else None,
+            Kx.tolist() if Kx is not None else None,
+            Kxd.tolist() if Kxd is not None else None,
             op_space_interp,
         )
 
@@ -98,22 +119,22 @@ class FrankaInterfaceClient:
         adaptive: bool = True,
     ):
         self.server.robot_start_joint_impedance_control(
-            Kq if Kq is not None else None,
-            Kqd if Kqd is not None else None,
+            Kq.tolist() if Kq is not None else None,
+            Kqd.tolist() if Kqd is not None else None,
             adaptive,
         )
 
     def robot_start_cartesian_impedance_control(self, Kx: np.ndarray, Kxd: np.ndarray):
         self.server.robot_start_cartesian_impedance_control(
-            Kx if Kx is not None else None,
-            Kxd if Kxd is not None else None,
+            Kx.tolist() if Kx is not None else None,
+            Kxd.tolist() if Kxd is not None else None,
         )
 
     def robot_update_desired_joint_positions(self, positions: np.ndarray):
-        self.server.robot_update_desired_joint_positions(positions)
+        self.server.robot_update_desired_joint_positions(positions.tolist())
 
     def robot_update_desired_ee_pose(self, pose: np.ndarray):
-        self.server.robot_update_desired_ee_pose(pose)
+        self.server.robot_update_desired_ee_pose(pose.tolist())
 
     def robot_terminate_current_policy(self):
         self.server.robot_terminate_current_policy()
@@ -125,6 +146,9 @@ if __name__ == "__main__":
     
     Franka = FrankaInterfaceClient()
     
+    Franka.gripper_goto(width=0.0, speed=0.1, force=10.0)
+    
+    # Franka.gripper_goto(width=0.08, speed=0.1, force=10.0)
     # Reset
     Franka.robot_go_home()
 

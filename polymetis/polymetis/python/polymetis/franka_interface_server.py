@@ -9,7 +9,7 @@ import torch
 class FrankaInterfaceServer:
     def __init__(self):
         # self.robot = RobotInterface(ip_address="172.16.0.2")
-        self.robot = RobotInterface()
+        self.robot = RobotInterface(enforce_version=False)
         self.gripper = GripperInterface()
 
     def gripper_goto(
@@ -55,26 +55,26 @@ class FrankaInterfaceServer:
             "error_code": state.error_code,
         }
 
-    def robot_get_joint_positions(self)-> np.ndarray:
-        return self.robot.get_joint_positions().numpy()
+    def robot_get_joint_positions(self)-> list:
+        return self.robot.get_joint_positions().numpy().tolist()
 
-    def robot_get_joint_velocities(self)-> np.ndarray:
-        return self.robot.get_joint_velocities().numpy()
+    def robot_get_joint_velocities(self)-> list:
+        return self.robot.get_joint_velocities().numpy().tolist()
 
-    def robot_get_ee_pose(self)-> np.ndarray:
+    def robot_get_ee_pose(self)-> list:
         data = self.robot.get_ee_pose()
         pos = data[0].numpy()
         quat_xyzw = data[1].numpy()
         rot_vec = st.Rotation.from_quat(quat_xyzw).as_rotvec()
-        return np.concatenate([pos, rot_vec])
+        return np.concatenate([pos, rot_vec]).tolist()
     
     def robot_move_to_joint_positions(
         self,
-        positions: np.ndarray,
+        positions: list,
         time_to_go: float = None,
         delta: bool = False,
-        Kq: np.ndarray = None,
-        Kqd: np.ndarray = None,
+        Kq: list = None,
+        Kqd: list = None,
     ):
         self.robot.move_to_joint_positions(
             positions=torch.Tensor(positions),
@@ -89,12 +89,12 @@ class FrankaInterfaceServer:
 
     def robot_move_to_ee_pose(
         self,
-        position: np.ndarray = None,
-        orientation: np.ndarray = None,
+        position: list = None,
+        orientation: list = None,
         time_to_go: float = None,
         delta: bool = False,
-        Kx: np.ndarray = None,
-        Kxd: np.ndarray = None,
+        Kx: list = None,
+        Kxd: list = None,
         op_space_interp: bool = True,
     ):
         self.robot.move_to_ee_pose(
@@ -107,14 +107,14 @@ class FrankaInterfaceServer:
             op_space_interp=op_space_interp,
         )
 
-    def robot_start_joint_impedance_control(self, Kq=None, Kqd=None, adaptive=True,):
+    def robot_start_joint_impedance_control(self, Kq: list = None, Kqd: list = None, adaptive=True,):
         self.robot.start_joint_impedance_control(
             Kq=torch.Tensor(Kq) if Kq is not None else None,
             Kqd=torch.Tensor(Kqd) if Kqd is not None else None,
             adaptive=adaptive,
         )
 
-    def robot_start_cartesian_impedance_control(self, Kx=None, Kxd=None):
+    def robot_start_cartesian_impedance_control(self, Kx: list = None, Kxd: list = None):
         self.robot.start_cartesian_impedance(
             Kx=torch.Tensor(Kx) if Kx is not None else None,
             Kxd=torch.Tensor(Kxd) if Kxd is not None else None,
@@ -125,16 +125,18 @@ class FrankaInterfaceServer:
             positions=torch.Tensor(positions)
         )
 
-    def robot_update_desired_ee_pose(self, pose: np.ndarray):
+    def robot_update_desired_ee_pose(self, pose: list):
+        pose = torch.Tensor(pose)
         self.robot.update_desired_ee_pose(
-            position=torch.Tensor(pose[:3]),
-            orientation=torch.Tensor(st.Rotation.from_rotvec(pose[3:]).as_quat())
+            position=pose[:3],
+            orientation=st.Rotation.from_rotvec(pose[3:]).as_quat()
         )
 
     def robot_terminate_current_policy(self):
         self.robot.terminate_current_policy()
 
-
-s = zerorpc.Server(FrankaInterfaceServer())
-s.bind("tcp://0.0.0.0:4242")
-s.run()
+if __name__ == "__main__":
+    server = FrankaInterfaceServer()
+    s = zerorpc.Server(server)
+    s.bind("tcp://0.0.0.0:4242")
+    s.run()

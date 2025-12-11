@@ -1,3 +1,8 @@
+'''
+run on the NUC connected to the franka robot
+to provide zerorpc server interface
+'''
+
 import zerorpc
 from polymetis import RobotInterface
 from polymetis import GripperInterface

@@ -15,6 +15,8 @@ class FrankaInterfaceServer:
     def __init__(self):
         # self.robot = RobotInterface(ip_address="172.16.0.2")
         self.robot = RobotInterface(enforce_version=False)
+        
+    def gripper_initialize(self):
         self.gripper = GripperInterface()
 
     def gripper_goto(
@@ -52,7 +54,7 @@ class FrankaInterfaceServer:
     def gripper_get_state(self)-> dict:
         state = self.gripper.get_state()
         return {
-            "timestamp": state.timestamp,
+            # "timestamp": state.timestamp,
             "width": state.width,
             "is_moving": state.is_moving,
             "is_grasped": state.is_grasped,
@@ -113,7 +115,7 @@ class FrankaInterfaceServer:
         )
 
     def robot_start_joint_impedance_control(self, Kq: list = None, Kqd: list = None, adaptive=True,):
-        self.robot.start_joint_impedance_control(
+        self.robot.start_joint_impedance(
             Kq=torch.Tensor(Kq) if Kq is not None else None,
             Kqd=torch.Tensor(Kqd) if Kqd is not None else None,
             adaptive=adaptive,

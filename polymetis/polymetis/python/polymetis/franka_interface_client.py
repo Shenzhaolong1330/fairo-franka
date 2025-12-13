@@ -1,7 +1,6 @@
 '''
-run on the user machine 
+running on the user machine 
 to connect to the franka_interface_server 
-running on the NUC
 '''
 
 import numpy as np
@@ -13,11 +12,16 @@ class FrankaInterfaceClient:
         self.server = zerorpc.Client(heartbeat=20)
         self.server.connect(f"tcp://{ip}:{port}")
 
+    def gripper_initialize(self):
+        self.server.gripper_initialize()
+
     def gripper_goto(
         self, 
         width: float, 
         speed: float, 
         force: float, 
+        epsilon_inner: float = -1.0,
+        epsilon_outer: float = -1.0,
         blocking: bool = True
     ):
         # self.server.gripper_goto(
@@ -26,7 +30,7 @@ class FrankaInterfaceClient:
         #     force=force,
         #     blocking=blocking,
         # )
-        self.server.gripper_goto(width, speed, force, blocking)
+        self.server.gripper_goto(width, speed, force, epsilon_inner, epsilon_outer, blocking)
 
     def gripper_grasp(
         self,
@@ -129,12 +133,15 @@ class FrankaInterfaceClient:
             Kqd.tolist() if Kqd is not None else None,
             adaptive,
         )
+        print(f"[ROBOT] Joint impedance control started")
 
     def robot_start_cartesian_impedance_control(self, Kx: np.ndarray, Kxd: np.ndarray):
         self.server.robot_start_cartesian_impedance_control(
             Kx.tolist() if Kx is not None else None,
             Kxd.tolist() if Kxd is not None else None,
         )
+        print(f"[ROBOT] Cartesian impedance control started")
+
 
     def robot_update_desired_joint_positions(self, positions: np.ndarray):
         self.server.robot_update_desired_joint_positions(positions.tolist())
@@ -152,7 +159,9 @@ if __name__ == "__main__":
     
     Franka = FrankaInterfaceClient()
     
-    Franka.gripper_goto(width=0.0, speed=0.1, force=10.0)
+    Franka.gripper_goto(width=0.06, speed=0.1, force=10.0)
+    gripper_state = Franka.gripper_get_state()
+    print(f"Current gripper state: {gripper_state}")
     
     # Franka.gripper_goto(width=0.08, speed=0.1, force=10.0)
     # Reset

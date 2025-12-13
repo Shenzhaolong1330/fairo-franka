@@ -67,7 +67,14 @@ class GripperInterface:
         """
         return self.grpc_connection.GetState(EMPTY)
 
-    def goto(self, width: float, speed: float, force: float, blocking: bool = True):
+    def goto(
+        self, 
+        width: float, 
+        speed: float, 
+        force: float, 
+        epsilon_inner: float = -1.0,
+        epsilon_outer: float = -1.0,
+        blocking: bool = True,):
         """Commands the gripper to a certain width
         Args:
             pos: Target width
@@ -82,8 +89,8 @@ class GripperInterface:
             speed=speed, 
             force=force, 
             grasp=True,
-            epsilon_inner=-1.0,
-            epsilon_outer=0.08,
+            epsilon_inner=epsilon_inner,
+            epsilon_outer=epsilon_outer,
         )
         
         cmd.timestamp.GetCurrentTime()

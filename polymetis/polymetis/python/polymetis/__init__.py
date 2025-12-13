@@ -5,3 +5,5 @@
 from ._version import __version__
 from .robot_interface import RobotInterface
 from .gripper_interface import GripperInterface
+# from .franka_interface_client import FrankaInterfaceClient
+from .franka_interface_server import FrankaInterfaceServer

@@ -36,7 +36,7 @@ robot_client:
         - 1.0
       cartesian_pos_lower:
         - -1.0
-        - -0.4
+        - -0.8
         - -0.1
 
       # the remaining limits are set to the original franka limits minus a margin

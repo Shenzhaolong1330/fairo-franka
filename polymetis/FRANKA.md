@@ -38,3 +38,13 @@ cd ./polymetis/build
 cmake -DBUILD_FRANKA=ON -DFranka_DIR=your/path/to/libfranka/build -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=ON ..
 make -j
 ```
+
+## Usage
+If you want to use the interface to control the Franka robot, follow the steps below:
+```
+cd polymetis/polymetis/python/scripts
+python launch_robot.py robot_client=franka_hardware
+python launch_gripper.py gripper=franka_hand
+# optional: only if you want to control it from a remote machine
+python launch_server.py
+```

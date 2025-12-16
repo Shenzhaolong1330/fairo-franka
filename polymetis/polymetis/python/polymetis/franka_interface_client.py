@@ -167,6 +167,7 @@ class FrankaInterfaceClient:
 if __name__ == "__main__":
     
     Franka = FrankaInterfaceClient()
+    Franka.gripper_initialize()
     
     Franka.gripper_goto(width=0.06, speed=0.1, force=10.0)
     gripper_state = Franka.gripper_get_state()

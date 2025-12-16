@@ -48,3 +48,7 @@ python launch_gripper.py gripper=franka_hand
 # optional: only if you want to control it from a remote machine
 python launch_server.py
 ```
+remember to use this command after launch robot
+```
+sudo pkill -9 run_server
+```

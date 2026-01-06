@@ -35,7 +35,7 @@ pip install -e ./polymetis
 mkdir -p ./polymetis/build
 cd ./polymetis/build
 
-cmake -DBUILD_FRANKA=ON -DFranka_DIR=your/path/to/libfranka/build -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=ON ..
+cmake -DBUILD_FRANKA=ON -DFranka_DIR=/home/deepcybo/libfranka/build -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=ON ..
 make -j
 ```
 

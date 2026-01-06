@@ -41,21 +41,21 @@ robot_client:
 
       # the remaining limits are set to the original franka limits minus a margin
       joint_pos_upper: #margin: 0.1 rad
-        - 2.80
-        - 1.66
-        - 2.80
-        - -0.17
-        - 2.80
-        - 3.65
-        - 2.80
+        - 3.0
+        - 3.0
+        - 3.0
+        - 3.0
+        - 3.0
+        - 3.0
+        - 3.0
       joint_pos_lower: #margin: 0.1 rad
-        - -2.80
-        - -1.66
-        - -2.80
-        - -2.97
-        - -2.80
-        - 0.08
-        - -2.80
+        - -3.0
+        - -3.0
+        - -3.0
+        - -3.0
+        - -3.0
+        - -3.0
+        - -3.0
       joint_vel: #margin: 0.1 rad/s
         - 3.14
         - 3.14
@@ -66,19 +66,23 @@ robot_client:
         - 3.14
       elbow_vel: 3.14      #margin: 0.1 rad/s
       joint_torques:  #margin: 1N for first 4 joints, 0.5N for last 3 joints
-        - 86.0
-        - 86.0
-        - 86.0
-        - 86.0
-        - 11.5
-        - 11.5
-        - 11.5
+        - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
 
     collision_behavior:
-      lower_torque: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
-      upper_torque: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
-      lower_force: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
-      upper_force: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
+      # lower_torque: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
+      # upper_torque: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
+      # lower_force: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
+      # upper_force: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0]
+      lower_torque: [20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]
+      upper_torque: [80.0, 80.0, 80.0, 80.0, 80.0, 80.0,80.0]
+      lower_force: [20.0, 20.0, 20.0, 20.0, 20.0, 20.0]
+      upper_force: [80.0, 80.0, 80.0, 80.0, 80.0, 80.0]
 
     safety_controller:
       is_active: true

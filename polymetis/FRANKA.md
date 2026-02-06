@@ -52,3 +52,15 @@ remember to use this command after launch robot
 ```
 sudo pkill -9 run_server
 ```
+
+If you want to use robotiq gripper, uncomment the content in `goto` in [gripper_interface.py](polymetis/polymetis/python/polymetis/gripper_interface.py)
+```python
+# CHOOSE to use robotiq gripper
+cmd = polymetis_pb2.GripperCommand(
+    width=width, speed=speed, force=force, grasp=False
+)
+```
+and launch the gripper directly.
+```
+python launch_gripper.py
+```

@@ -81,12 +81,12 @@ class GripperInterface:
             vel: Velocity of the movement
             force: Maximum force the gripper will exert
         """
-        # use robotiq gripper
+        # CHOOSE to use robotiq gripper
         cmd = polymetis_pb2.GripperCommand(
             width=width, speed=speed, force=force, grasp=False
         )
 
-        # use franka hand
+        # CHOOSE to use franka hand
         # cmd = polymetis_pb2.GripperCommand(
         #     width=width, 
         #     speed=speed, 

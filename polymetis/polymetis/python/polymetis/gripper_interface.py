@@ -81,17 +81,20 @@ class GripperInterface:
             vel: Velocity of the movement
             force: Maximum force the gripper will exert
         """
-        # cmd = polymetis_pb2.GripperCommand(
-        #     width=width, speed=speed, force=force, grasp=False
-        # )
+        # use robotiq gripper
         cmd = polymetis_pb2.GripperCommand(
-            width=width, 
-            speed=speed, 
-            force=force, 
-            grasp=True,
-            epsilon_inner=epsilon_inner,
-            epsilon_outer=epsilon_outer,
+            width=width, speed=speed, force=force, grasp=False
         )
+
+        # use franka hand
+        # cmd = polymetis_pb2.GripperCommand(
+        #     width=width, 
+        #     speed=speed, 
+        #     force=force, 
+        #     grasp=True,
+        #     epsilon_inner=epsilon_inner,
+        #     epsilon_outer=epsilon_outer,
+        # )
         
         cmd.timestamp.GetCurrentTime()
 

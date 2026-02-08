@@ -61,6 +61,11 @@ cmd = polymetis_pb2.GripperCommand(
 )
 ```
 and launch the gripper directly.
-```
+```bash
 python launch_gripper.py
+```
+
+if you encounter the error `Permission denied`, try to run the command below:
+```bash
+sudo chmod 666 /dev/ttyUSB0
 ```

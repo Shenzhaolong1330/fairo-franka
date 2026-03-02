@@ -1,0 +1,6 @@
+defaults:
+  - gripper: robotiq_2f_2
+
+ip: 0.0.0.0
+port: 50053
+timeout: 15

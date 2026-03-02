@@ -5,7 +5,7 @@ to connect to the franka_interface_server
 import logging
 import numpy as np
 import zerorpc
-
+import time
 log = logging.getLogger(__name__)
 
 class FrankaInterfaceClient:
@@ -187,7 +187,9 @@ if __name__ == "__main__":
     )
     print(f"\nMoving joints to: {joint_positions_desired} ...\n")
     state_log = Franka.robot_move_to_joint_positions(joint_positions_desired, time_to_go=2.0)
-
+    Franka.gripper_goto(width=0.0, speed=0.1, force=10.0)
+    time.sleep(1.0)
+    Franka.gripper_goto(width=0.085, speed=0.1, force=10.0)
     # Get updated joint positions
     joint_positions = Franka.robot_get_joint_positions()
     print(f"New joint positions: {joint_positions}")

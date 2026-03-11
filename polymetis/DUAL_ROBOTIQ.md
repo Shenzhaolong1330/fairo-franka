@@ -80,6 +80,7 @@ timeout: 15
 ```bash
 conda activate polymetis-local
 cd polymetis/polymetis/python/scripts
+export PYTHONNOUSERSITE=1
 ```
 
 **终端 1 —— Gripper 1（ttyUSB0，port 50052）：**

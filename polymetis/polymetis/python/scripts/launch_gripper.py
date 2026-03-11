@@ -35,8 +35,9 @@ def main(cfg):
 
     else:  # (this block does not run if gripper=none)
         # Wait for server to launch
+        # Use localhost for connection check since server binds to 0.0.0.0
         t0 = time.time()
-        while not check_server_exists(cfg.ip, cfg.port):
+        while not check_server_exists("localhost", cfg.port):
             time.sleep(0.1)
             if time.time() - t0 > cfg.timeout:
                 raise ConnectionError("Robot client: Unable to locate server.")

@@ -3,6 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 import logging
+import os
 import tempfile
 import subprocess
 import sys
@@ -70,7 +71,8 @@ class ExecutableRobotClient(AbstractRobotClient):
 
                 # Add sudo if realtime; also, inherit $PATH variable
                 command_list = [path_to_exec, cfg_file.name]
-                if self.use_real_time:
+                no_sudo_realtime = os.environ.get("POLYMETIS_REALTIME_NO_SUDO", "0") == "1"
+                if self.use_real_time and not no_sudo_realtime:
                     command_list = ["sudo", "env", '"PATH=$PATH"'] + command_list
 
                 # Run

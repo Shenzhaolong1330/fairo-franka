@@ -44,11 +44,14 @@ def main(cfg):
     server_cmd = [server_exec_path]
     server_cmd = server_cmd + ["-s", ip, "-p", port]
 
+    no_sudo_realtime = os.environ.get("POLYMETIS_REALTIME_NO_SUDO", "0") == "1"
     if cfg.use_real_time:
-        log.info(f"Acquiring sudo...")
-        subprocess.run(["sudo", "echo", '"Acquired sudo."'], check=True)
-
-        server_cmd = ["sudo", "-s", "env", '"PATH=$PATH"'] + server_cmd + ["-r"]
+        if no_sudo_realtime:
+            server_cmd = server_cmd + ["-r"]
+        else:
+            log.info(f"Acquiring sudo...")
+            subprocess.run(["sudo", "echo", '"Acquired sudo."'], check=True)
+            server_cmd = ["sudo", "-s", "env", '"PATH=$PATH"'] + server_cmd + ["-r"]
         log.info(f"Server command: {' '.join(server_cmd)}")
     server_output = subprocess.Popen(
         server_cmd, stdout=sys.stdout, stderr=sys.stderr, preexec_fn=os.setpgrp
@@ -56,7 +59,7 @@ def main(cfg):
     pgid = os.getpgid(server_output.pid)
 
     # Kill process at the end
-    if cfg.use_real_time:
+    if cfg.use_real_time and not no_sudo_realtime:
 
         def cleanup():
             log.info(

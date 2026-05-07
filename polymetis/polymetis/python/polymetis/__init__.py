@@ -7,3 +7,4 @@ from .robot_interface import RobotInterface
 from .gripper_interface import GripperInterface
 # from .franka_interface_client import FrankaInterfaceClient
 from .franka_interface_server import FrankaInterfaceServer
+from .dual_franka_interface_server import DualFrankaInterfaceServer
